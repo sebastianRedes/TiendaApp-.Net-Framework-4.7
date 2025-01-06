@@ -1,0 +1,83 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Schema Namespace="TiendaModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2008" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+  <EntityType Name="DetalleVentas">
+    <Key>
+      <PropertyRef Name="IdDetalleVenta" />
+    </Key>
+    <Property Name="IdDetalleVenta" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="IdVenta" Type="int" Nullable="false" />
+    <Property Name="IdProducto" Type="int" Nullable="false" />
+    <Property Name="Cantidad" Type="int" Nullable="false" />
+    <Property Name="PrecioUnitario" Type="decimal" Precision="10" Scale="2" Nullable="false" />
+    <Property Name="Subtotal" Type="decimal" Precision="21" Scale="2" StoreGeneratedPattern="Computed" />
+  </EntityType>
+  <EntityType Name="Productos">
+    <Key>
+      <PropertyRef Name="IdProducto" />
+    </Key>
+    <Property Name="IdProducto" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="Nombre" Type="nvarchar" MaxLength="100" Nullable="false" />
+    <Property Name="Descripcion" Type="nvarchar" MaxLength="255" />
+    <Property Name="Precio" Type="decimal" Precision="10" Scale="2" Nullable="false" />
+    <Property Name="Stock" Type="int" Nullable="false" />
+    <Property Name="FechaCreacion" Type="datetime" />
+    <Property Name="Estado" Type="bit" />
+  </EntityType>
+  <EntityType Name="sysdiagrams">
+    <Key>
+      <PropertyRef Name="diagram_id" />
+    </Key>
+    <Property Name="name" Type="nvarchar" MaxLength="128" Nullable="false" />
+    <Property Name="principal_id" Type="int" Nullable="false" />
+    <Property Name="diagram_id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="version" Type="int" />
+    <Property Name="definition" Type="varbinary(max)" />
+  </EntityType>
+  <EntityType Name="Ventas">
+    <Key>
+      <PropertyRef Name="IdVenta" />
+    </Key>
+    <Property Name="IdVenta" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="FechaVenta" Type="datetime" />
+    <Property Name="Total" Type="decimal" Precision="10" Scale="2" Nullable="false" />
+    <Property Name="Cliente" Type="nvarchar" MaxLength="100" Nullable="false" />
+  </EntityType>
+  <Association Name="FK__DetalleVe__IdPro__4AB81AF0">
+    <End Role="Productos" Type="Self.Productos" Multiplicity="1" />
+    <End Role="DetalleVentas" Type="Self.DetalleVentas" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Productos">
+        <PropertyRef Name="IdProducto" />
+      </Principal>
+      <Dependent Role="DetalleVentas">
+        <PropertyRef Name="IdProducto" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK__DetalleVe__IdVen__49C3F6B7">
+    <End Role="Ventas" Type="Self.Ventas" Multiplicity="1" />
+    <End Role="DetalleVentas" Type="Self.DetalleVentas" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Ventas">
+        <PropertyRef Name="IdVenta" />
+      </Principal>
+      <Dependent Role="DetalleVentas">
+        <PropertyRef Name="IdVenta" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <EntityContainer Name="TiendaModelStoreContainer">
+    <EntitySet Name="DetalleVentas" EntityType="Self.DetalleVentas" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="Productos" EntityType="Self.Productos" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="sysdiagrams" EntityType="Self.sysdiagrams" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="Ventas" EntityType="Self.Ventas" Schema="dbo" store:Type="Tables" />
+    <AssociationSet Name="FK__DetalleVe__IdPro__4AB81AF0" Association="Self.FK__DetalleVe__IdPro__4AB81AF0">
+      <End Role="Productos" EntitySet="Productos" />
+      <End Role="DetalleVentas" EntitySet="DetalleVentas" />
+    </AssociationSet>
+    <AssociationSet Name="FK__DetalleVe__IdVen__49C3F6B7" Association="Self.FK__DetalleVe__IdVen__49C3F6B7">
+      <End Role="Ventas" EntitySet="Ventas" />
+      <End Role="DetalleVentas" EntitySet="DetalleVentas" />
+    </AssociationSet>
+  </EntityContainer>
+</Schema>

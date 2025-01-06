@@ -1,0 +1,87 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Schema Namespace="TiendaModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
+  <EntityType Name="DetalleVentas">
+    <Key>
+      <PropertyRef Name="IdDetalleVenta" />
+    </Key>
+    <Property Name="IdDetalleVenta" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="IdVenta" Type="Int32" Nullable="false" />
+    <Property Name="IdProducto" Type="Int32" Nullable="false" />
+    <Property Name="Cantidad" Type="Int32" Nullable="false" />
+    <Property Name="PrecioUnitario" Type="Decimal" Precision="10" Scale="2" Nullable="false" />
+    <Property Name="Subtotal" Type="Decimal" Precision="21" Scale="2" annotation:StoreGeneratedPattern="Computed" />
+    <NavigationProperty Name="Productos" Relationship="Self.FK__DetalleVe__IdPro__4AB81AF0" FromRole="DetalleVentas" ToRole="Productos" />
+    <NavigationProperty Name="Ventas" Relationship="Self.FK__DetalleVe__IdVen__49C3F6B7" FromRole="DetalleVentas" ToRole="Ventas" />
+  </EntityType>
+  <EntityType Name="Productos">
+    <Key>
+      <PropertyRef Name="IdProducto" />
+    </Key>
+    <Property Name="IdProducto" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="Nombre" Type="String" MaxLength="100" FixedLength="false" Unicode="true" Nullable="false" />
+    <Property Name="Descripcion" Type="String" MaxLength="255" FixedLength="false" Unicode="true" />
+    <Property Name="Precio" Type="Decimal" Precision="10" Scale="2" Nullable="false" />
+    <Property Name="Stock" Type="Int32" Nullable="false" />
+    <Property Name="FechaCreacion" Type="DateTime" Precision="3" />
+    <Property Name="Estado" Type="Boolean" />
+    <NavigationProperty Name="DetalleVentas" Relationship="Self.FK__DetalleVe__IdPro__4AB81AF0" FromRole="Productos" ToRole="DetalleVentas" />
+  </EntityType>
+  <EntityType Name="sysdiagrams">
+    <Key>
+      <PropertyRef Name="diagram_id" />
+    </Key>
+    <Property Name="name" Type="String" MaxLength="128" FixedLength="false" Unicode="true" Nullable="false" />
+    <Property Name="principal_id" Type="Int32" Nullable="false" />
+    <Property Name="diagram_id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="version" Type="Int32" />
+    <Property Name="definition" Type="Binary" MaxLength="Max" FixedLength="false" />
+  </EntityType>
+  <EntityType Name="Ventas">
+    <Key>
+      <PropertyRef Name="IdVenta" />
+    </Key>
+    <Property Name="IdVenta" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="FechaVenta" Type="DateTime" Precision="3" />
+    <Property Name="Total" Type="Decimal" Precision="10" Scale="2" Nullable="false" />
+    <Property Name="Cliente" Type="String" MaxLength="100" FixedLength="false" Unicode="true" Nullable="false" />
+    <NavigationProperty Name="DetalleVentas" Relationship="Self.FK__DetalleVe__IdVen__49C3F6B7" FromRole="Ventas" ToRole="DetalleVentas" />
+  </EntityType>
+  <Association Name="FK__DetalleVe__IdPro__4AB81AF0">
+    <End Role="Productos" Type="Self.Productos" Multiplicity="1" />
+    <End Role="DetalleVentas" Type="Self.DetalleVentas" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Productos">
+        <PropertyRef Name="IdProducto" />
+      </Principal>
+      <Dependent Role="DetalleVentas">
+        <PropertyRef Name="IdProducto" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK__DetalleVe__IdVen__49C3F6B7">
+    <End Role="Ventas" Type="Self.Ventas" Multiplicity="1" />
+    <End Role="DetalleVentas" Type="Self.DetalleVentas" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Ventas">
+        <PropertyRef Name="IdVenta" />
+      </Principal>
+      <Dependent Role="DetalleVentas">
+        <PropertyRef Name="IdVenta" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <EntityContainer Name="DbModel" annotation:LazyLoadingEnabled="true">
+    <EntitySet Name="DetalleVentas" EntityType="Self.DetalleVentas" />
+    <EntitySet Name="Productos" EntityType="Self.Productos" />
+    <EntitySet Name="sysdiagrams" EntityType="Self.sysdiagrams" />
+    <EntitySet Name="Ventas" EntityType="Self.Ventas" />
+    <AssociationSet Name="FK__DetalleVe__IdPro__4AB81AF0" Association="Self.FK__DetalleVe__IdPro__4AB81AF0">
+      <End Role="Productos" EntitySet="Productos" />
+      <End Role="DetalleVentas" EntitySet="DetalleVentas" />
+    </AssociationSet>
+    <AssociationSet Name="FK__DetalleVe__IdVen__49C3F6B7" Association="Self.FK__DetalleVe__IdVen__49C3F6B7">
+      <End Role="Ventas" EntitySet="Ventas" />
+      <End Role="DetalleVentas" EntitySet="DetalleVentas" />
+    </AssociationSet>
+  </EntityContainer>
+</Schema>
